@@ -5,6 +5,7 @@ class window.Hand extends Backbone.Collection
 
   hit: ->
     @add(@deck.pop())
+    @checkBust()
     @last()
 
 
@@ -22,4 +23,23 @@ class window.Hand extends Backbone.Collection
     # when there is an ace, it offers you two scores - the original score, and score + 10.
     [@minScore(), @minScore() + 10 * @hasAce()]
 
+  score: ->
+    if @scores()[1] > @scores()[0] and @scores()[1] <= 21
+      @scores()[1]
+    else
+      @scores()[0]
 
+
+  checkBust: ->
+    if @scores()[0] > 21
+      if @isDealer
+        alert("Player Wins!")
+      else
+        alert("Dealer Wins!")
+
+  stand: =>
+    console.log("playerHand stand method triggered")
+    @.trigger('stand',@)
+
+  reveal: ->
+    @.at(0).flip()
