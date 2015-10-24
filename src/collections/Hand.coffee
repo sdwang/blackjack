@@ -38,8 +38,12 @@ class window.Hand extends Backbone.Collection
         alert("Dealer Wins!")
 
   stand: =>
-    console.log("playerHand stand method triggered")
-    @.trigger('stand',@)
+    @trigger('stand',@)
 
   reveal: ->
-    @.at(0).flip()
+    @at(0).flip()
+
+  hitUntil17: ->
+    if @score() < 17
+      @hit()
+      @hitUntil17()
