@@ -4,10 +4,10 @@ class window.ChipsView extends Backbone.View
   template: _.template '<h3>stack</h3><h4 class="stack"></h4>'
 
   initialize: ->
-    @collection.on 'add remove', => @render()
+    @collection.on 'add remove change', => @render()
     @render()
 
-  render: ->
+  render: =>
     @$el.children().detach()
     @$el.html @template @collection
     @$('.stack').text @collection.count()

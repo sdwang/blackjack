@@ -2,6 +2,7 @@ class window.AppView extends Backbone.View
   template: _.template '
     <button class="hit-button">Hit</button> <button class="stand-button">Stand</button>
     <input class="betAmount" placeholder="Place your bet!"></input><button class="bet-button">Bet</button>
+    <button class="newGame">New Game</button>
     <div class="player-stack-container"></div>
     <div class="player-hand-container"></div>
     <div class="pot-stack-container"></div>
@@ -13,9 +14,16 @@ class window.AppView extends Backbone.View
     'click .hit-button': -> @model.get('playerHand').hit()
     'click .stand-button': -> @model.get('playerHand').stand()
     'click .bet-button': -> @bet()
+    'click .newGame': -> 
+      @model.newGame() 
+      @render()
+
 
   initialize: ->
     @render()
+    @model.on 'newGameTrigger', => 
+      @model.newGame()
+      @render()
 
   render: ->
     @$el.children().detach()
@@ -28,5 +36,7 @@ class window.AppView extends Backbone.View
 
   bet: ->
     playerBet = Number($('.betAmount').val())
-    @model.get('playerChips').remove(playerBet)
-    @model.get('potChips').add(playerBet)
+    @model.get('playerChips').removeChips(playerBet)
+    @model.get('potChips').addChips(playerBet)
+    @model.get('dealerChips').removeChips(playerBet)
+    @model.get('potChips').addChips(playerBet)
