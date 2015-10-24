@@ -6,10 +6,12 @@ class window.App extends Backbone.Model
     @set 'deck', deck = new Deck()
     @set 'playerHand', deck.dealPlayer()
     @set 'dealerHand', deck.dealDealer()
+    @set 'playerChips', playerChips = new Chips('player')
+    @set 'dealerChips', dealerChips = new Chips('dealer')
+    @set 'potChips', potChips = new Chips('pot')
 
 
     @get('playerHand').on('stand', =>
-      console.log(window.stack)
       @get('dealerHand').reveal()
       @get('dealerHand').hitUntil17()
       #compare playerhand and dealerhand
