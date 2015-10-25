@@ -32,10 +32,7 @@ class window.Hand extends Backbone.Collection
 
   checkBust: ->
     if @scores()[0] > 21
-      if @isDealer
-        alert("Player Wins!")
-      else
-        alert("Dealer Wins!")
+      @trigger('bust', @)
 
   stand: =>
     @trigger('stand',@)
@@ -44,6 +41,7 @@ class window.Hand extends Backbone.Collection
     @at(0).flip()
 
   hitUntil17: ->
-    if @score() < 17
+    while @score() < 17
       @hit()
-      @hitUntil17()
+    if @scores()[0] <= 21
+      @trigger('stand',@)
